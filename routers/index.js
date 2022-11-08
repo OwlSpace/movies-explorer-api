@@ -38,7 +38,7 @@ router.post('/signin', celebrate({
   }),
 }), createNewUser);
 
-// router.use(auth);
+router.use(auth);
 
 router.use('/users', usersRouter);
 router.use('/movies', moviesRouter);
