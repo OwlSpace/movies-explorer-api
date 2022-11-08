@@ -9,6 +9,7 @@ const centerError = require('./middlewares/center_error');
 const router = require('./routers/index');
 const { corsConfig } = require('./middlewares/cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { NAME_DB } = require('./constants');
 
 const { PORT = 3000 } = process.env;
 
@@ -16,7 +17,7 @@ const app = express();
 
 app.use(cookieParser());
 
-mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
+mongoose.connect(NAME_DB, {
   useNewUrlParser: true,
 });
 
