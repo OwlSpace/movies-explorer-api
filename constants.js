@@ -9,7 +9,7 @@ const DEFAULT_MESSAGE = 'Ошибка сервера';
 
 const saltRound = 5;
 const LINK_VALID = /^https?:\/\/(www\.)?[a-zA-Z\d-]+\.[\w\d\-.~:/?#[\]@!$&'()*+,;=]{2,}#?$/;
-const NAME_DB= 'mongodb://localhost:27017/bitfilmsdb';
+const NAME_DB= 'mongodb://localhost:27017/moviesdb';
 
 module.exports = {
   OK,

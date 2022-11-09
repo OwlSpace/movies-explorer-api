@@ -45,7 +45,7 @@ const authorization = (req, res, next) => {
           sameSite: 'none',
           secure: true,
         });
-      res.send('Авторизация прошла успешно');
+      res.send({ message: 'Авторизация прошла успешно' });
     })
     .catch(next);
 };
