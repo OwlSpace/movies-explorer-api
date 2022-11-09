@@ -5,7 +5,6 @@ const { OK, saltRound } = require('../constants');
 const BadRequestError = require('../errors/BadRequestError');
 const ConflictError = require('../errors/ConflictError');
 const NotFoundError = require('../errors/NotFoundError');
-const UnauthorizedError = require('../errors/UnauthorizedError');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -46,11 +45,9 @@ const authorization = (req, res, next) => {
           sameSite: 'none',
           secure: true,
         });
-      res.send( { token });
+      res.send('Авторизация прошла успешно');
     })
-    .catch(() => {
-      next(new  UnauthorizedError('Неправильная почта или пароль'));
-    });
+    .catch(next);
 };
 
 const signout = (req, res) => res.clearCookie('authorization', { sameSite: 'none', secure: true }).send({ message: 'Выход' });
@@ -84,6 +81,9 @@ const updateUserInformation = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return next(new BadRequestError('Некоректные данные'));
+      }
+      if (err.code === 11000) {
+        return next(new ConflictError('Пользователь с таким email-адресом уже существует'));
       }
       return next(err);
     });
