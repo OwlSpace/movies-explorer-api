@@ -17,6 +17,12 @@ const createNewUser = (req, res, next) => {
       name, email, password: hash,
     }))
     .then((user) => {
+      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' })
+      res.cookie('authorization', token, {
+        maxAge: 3600000 * 24 * 7,
+        sameSite: 'none',
+        secure: true,
+      });
       res.status(OK).send({
         name: user.name,
         email: user.email,
@@ -45,7 +51,10 @@ const authorization = (req, res, next) => {
           sameSite: 'none',
           secure: true,
         });
-      res.send({ message: 'Авторизация прошла успешно' });
+      res.send({
+        name: user.name,
+        email: user.email
+      });
     })
     .catch(next);
 };
